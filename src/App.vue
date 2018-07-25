@@ -40,7 +40,7 @@ export default {
       if(this.$store.state.loggedIn){
         // attempting to reach an authentication route then redirect to dashboard
         if(to.name == 'login'){
-          console.log("already logged in")
+          console.log("[router] already logged in")
           next({name: 'home'})
         }else{
           // attempting to reach route that user is authorized to access
@@ -55,7 +55,7 @@ export default {
       }else{
         // check if this route requires authentication and redirect to fallback
         if(to.matched.some(record => record.meta.requiresAuth)){
-          console.log("unauthenticated, log in to access that page")
+          console.log("[router] not unauthenticated, log in to access that page")
           next({name: 'notAuthenticated'})
         }else{
           // proceed to requested page
