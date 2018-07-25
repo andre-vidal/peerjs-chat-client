@@ -47,10 +47,20 @@ export default {
   methods: {    
     async login(){
       try{
+        this.credentials.peerId = this.$store.state.user.peerId
         const response = await AuthenticationService.login(this.credentials)
+
         // console.log(response.data)
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
+
+        // eslint-disable-next-line
+        firebase.database().ref('users/' + this.credentials.peerId).set({
+          username: this.credentials.username,
+          avatar : null,
+          subtitle: "Hey, i'm using P2P Chat"
+        });
+
         // this.$session.start()
         // this.$session.set('jwt', response.data.token)
         // this.$session.set('user', response.data.user)

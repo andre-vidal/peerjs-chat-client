@@ -1,6 +1,6 @@
 <template>
   <v-toolbar color="primary" app dark flat fixed clipped-left>
-    <v-toolbar-title>[Project Name]</v-toolbar-title>
+    <v-toolbar-title>P2P Chat</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-menu v-if="$store.state.loggedIn" offset-y>
       <v-btn slot="activator" icon dark>
@@ -38,10 +38,12 @@ export default {
         const response = await AuthenticationService.logout({userId: this.$store.state.user.username})
         // console.log(response.data)
         if(response){
+          // eslint-disable-next-line
+          firebase.database().ref('users/' + this.$store.state.user.peerId).remove();
           // this.$session.destroy()
+          this.$store.dispatch('logout')
           this.$router.push({name: 'login'})
           this.$store.dispatch('setSnackbar', {show: true, text: "Logged out successfully", color: "success", x:'right', timeout: 3000})
-          this.$store.dispatch('logout')
         }
       }catch(err){
         console.log(err.response.data.error)

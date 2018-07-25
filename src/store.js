@@ -9,6 +9,7 @@ export default new Vuex.Store({
       username: null,
       peerId: null
     },
+    users: null,
     loggedIn: false,  
     snackbar: {
       show: false,
@@ -31,10 +32,13 @@ export default new Vuex.Store({
     logout (state){
       state.loggedIn = false
       state.token = null
-      state.user = {username: null, peerId: null}
+      state.user.username = null
+    },
+    setAllUsers (state, data){
+      state.users = data
     },
     setSnackbar (state, data){
-        state.snackbar = data
+      state.snackbar = data
     }
   },
   actions: {
@@ -46,6 +50,9 @@ export default new Vuex.Store({
     },
     logout ({commit}){
       commit('logout')
+    },
+    setAllUsers ({commit}, data){
+      commit('setAllUsers', data)
     },
     setSnackbar ({commit}, data){
         commit('setSnackbar', data)

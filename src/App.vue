@@ -26,7 +26,7 @@ export default {
     Footer,
     Snackbar
   },
-  created(){
+  mounted(){    
     // eslint-disable-next-line
     var peer = new Peer(); 
 
@@ -34,6 +34,12 @@ export default {
       this.$store.state.user.peerId = id
     });
 
+    peer.on('close', () =>{
+      // eslint-disable-next-line
+      firebase.database().ref('users/' + this.$store.state.user.peerId).remove();
+    })
+  },
+  created(){
     // global navigation guards
     router.beforeEach((to, from, next) => {
       // check if user logged in
