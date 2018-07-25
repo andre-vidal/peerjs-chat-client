@@ -37,10 +37,12 @@ export default {
       try{
         const response = await AuthenticationService.logout({userId: this.$store.state.user.username})
         // console.log(response.data)
-        this.$store.dispatch('logout')
-        // this.$session.destroy()
-        this.$router.push({name: 'login'})
-        this.$store.dispatch('setSnackbar', {show: true, text: "Logged out successfully", color: "success", x:'right', timeout: 3000})
+        if(response){
+          // this.$session.destroy()
+          this.$router.push({name: 'login'})
+          this.$store.dispatch('setSnackbar', {show: true, text: "Logged out successfully", color: "success", x:'right', timeout: 3000})
+          this.$store.dispatch('logout')
+        }
       }catch(err){
         console.log(err.response.data.error)
         this.$store.dispatch('setSnackbar', {show: true, text: "Log out error occured", color: "error", x:'right', timeout: 3000})

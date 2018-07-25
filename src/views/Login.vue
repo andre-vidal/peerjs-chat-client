@@ -13,8 +13,17 @@
               label="Username"
             ></v-text-field>
           </v-flex>
+          <v-flex xs12 pl-4 pr-4>
+            <v-text-field
+              v-model="$store.state.user.peerId"
+              type="text"
+              name="peerId"
+              label="PeerID"
+              readonly
+            ></v-text-field>
+          </v-flex>
           <v-flex xs12 pl-4 pr-4 mb-4>
-            <v-btn class="btn-submit" block color="primary" :disabled="!credentials.username" v-on:click="login()">Continue</v-btn>
+            <v-btn class="btn-submit" block color="primary" :disabled="!credentials.username || !$store.state.user.peerId" v-on:click="login()">Continue</v-btn>
           </v-flex>
         </v-card>               
       </v-layout>

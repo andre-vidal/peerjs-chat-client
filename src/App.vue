@@ -27,6 +27,13 @@ export default {
     Snackbar
   },
   created(){
+    // eslint-disable-next-line
+    var peer = new Peer(); 
+
+    peer.on('open', (id) => {
+      this.$store.state.user.peerId = id
+    });
+
     // global navigation guards
     router.beforeEach((to, from, next) => {
       // check if user logged in
@@ -34,11 +41,7 @@ export default {
         // attempting to reach an authentication route then redirect to dashboard
         if(to.name == 'login'){
           console.log("already logged in")
-          if(this.$store.state.role == "regular"){
-            next({name: 'home'})
-          }else{
-            next({name: 'dashboard'})
-          }
+          next({name: 'home'})
         }else{
           // attempting to reach route that user is authorized to access
           if(!to.meta.roles || to.meta.roles.includes(this.$store.state.user.role)){
