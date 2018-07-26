@@ -33,7 +33,7 @@ export default {
     var peer = new Peer(); 
 
     peer.on('error', (err) => {
-      console.log(err)
+      this.$store.dispatch('setSnackbar', {show: true, text: "[PeerJS] error occured", color: "warning", x:'right', timeout: 3000})
     });
     
     peer.on('open', (id) => {
