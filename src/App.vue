@@ -33,6 +33,7 @@ export default {
     var peer = new Peer(); 
 
     peer.on('error', (err) => {
+      console.log(err)
       this.$store.dispatch('setSnackbar', {show: true, text: "[PeerJS] error occured", color: "warning", x:'right', timeout: 3000})
     });
     
@@ -52,7 +53,7 @@ export default {
         conn.on('data', (data) => {
           // set chat identifier
           data.chat = data.from,
-          console.log(data)
+          // console.log(data)
           this.$store.dispatch('pushMessage', data)
         }); 
 

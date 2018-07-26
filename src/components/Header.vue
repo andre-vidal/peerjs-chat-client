@@ -15,6 +15,16 @@
         </v-list-tile>
       </v-list>
     </v-menu>
+    <v-flex xs12 slot="extension" class="ext" layout row wrap align-center v-if="$store.state.inChat" >
+      <!-- <v-card color="warning" dense dark flat pa-0 fluid> -->
+        <v-btn icon @click="$router.push({name: 'home'})">
+          <v-icon>arrow_back</v-icon>
+        </v-btn>
+        <v-flex>
+          <p class="headline text-xs-left ma-0">{{ $store.state.otherPeer.username }}</p>
+        </v-flex>
+      <!-- </v-card> -->
+    </v-flex>
   </v-toolbar>
 </template>
 
@@ -52,5 +62,16 @@ export default {
 <style scoped>
 .v-btn {
   text-transform: capitalize;
+}
+
+.v-toolbar__extension{
+  padding: 0px !important;
+}
+.ext {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: black;
 }
 </style>

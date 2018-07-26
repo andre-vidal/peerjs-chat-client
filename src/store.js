@@ -16,6 +16,7 @@ export default new Vuex.Store({
       subtitle: null,
     },
     users: null,
+    inChat: false,
     loggedIn: false,
     convos: {}, 
     currentConvo: null, 
@@ -55,6 +56,12 @@ export default new Vuex.Store({
     setConn (state, data){
       state.conns[data.chat] = data.conn
     },
+    openChat (state) {
+      state.inChat = true
+    },
+    closeChat (state) {
+      state.inChat = false
+    },
     pushMessage (state, data){
       if(state.convos[data.chat]){
         state.convos[data.chat].push(data)
@@ -92,6 +99,12 @@ export default new Vuex.Store({
     },
     setConn ({commit}, data){
         commit('setConn', data)
+    },
+    openChat ({commit}){
+        commit('openChat')
+    },
+    closeChat ({commit}){
+        commit('closeChat')
     },
     pushMessage ({commit}, data){
         commit('pushMessage', data)

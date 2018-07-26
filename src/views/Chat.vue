@@ -38,15 +38,14 @@ export default {
   components: {},
   data() {
     return {
-      msg: null,
-      chatMessages: []
+      msg: null
     }
   },
-  updated(){
-    this.chatMessages = this.$store.state.convos[this.$store.state.otherPeer.peerId]
+  mounted(){    
+    this.$store.dispatch('openChat')
   },
-  mounted(){
-    // this.chatMessages = this.$store.state.convos[this.$store.state.otherPeer.peerId]
+  beforeDestroy(){
+    this.$store.dispatch('closeChat')
   },
   methods: {
     openChat: function(item){
@@ -61,7 +60,7 @@ export default {
       this.$store.state.conns[this.$store.state.otherPeer.peerId].send(msg)
       // set chat identifier
       msg.chat = this.$store.state.otherPeer.peerId,
-      console.log(msg)
+      // console.log(msg)
       this.$store.dispatch('pushMessage', msg)
       this.msg = null
     }
