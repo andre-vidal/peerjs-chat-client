@@ -14,6 +14,7 @@
 
 <script>
 import router from '@/router'
+import {bus} from '@/main'
 
 import Header from "./components/Header"
 import Footer from "./components/Footer"
@@ -27,6 +28,7 @@ export default {
     Snackbar
   },
   mounted(){    
+
     // eslint-disable-next-line
     var peer = new Peer(); 
 
@@ -38,6 +40,36 @@ export default {
       // eslint-disable-next-line
       firebase.database().ref('users/' + this.$store.state.user.peerId).remove();
     })
+
+    peer.on('connection',(conn) => { 
+      
+      conn.on('open', () => { 
+        this.$router.push({name: 'chat'})
+
+        // Receive messages
+        conn.on('data', (data) => {
+          this.$store.dispatch('pushMessage', data)
+        }); 
+      })
+
+      this.$store.dispatch('setConn', conn)
+    })
+
+    bus.$on('startChat', (data) =>{
+      var conn = peer.connect(data);
+
+      conn.on('open', () => {         
+        this.$router.push({name: 'chat'})   
+
+        // Receive messages
+        conn.on('data', (data) => {
+          this.$store.dispatch('pushMessage', data)
+        }); 
+      })
+
+      this.$store.dispatch('setConn', conn)
+    })
+    
   },
   created(){
     // global navigation guards

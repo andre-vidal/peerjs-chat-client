@@ -16,7 +16,9 @@ export default new Vuex.Store({
       subtitle: null,
     },
     users: null,
-    loggedIn: false,  
+    loggedIn: false,
+    convo: [],  
+    conn: null,
     snackbar: {
       show: false,
       color: "green",
@@ -48,6 +50,12 @@ export default new Vuex.Store({
     },
     setSnackbar (state, data){
       state.snackbar = data
+    },
+    setConn (state, data){
+      state.conn = data
+    },
+    pushMessage (state, data){
+      state.convo.push(data)
     }
   },
   actions: {
@@ -68,6 +76,12 @@ export default new Vuex.Store({
     },
     setSnackbar ({commit}, data){
         commit('setSnackbar', data)
+    },
+    setConn ({commit}, data){
+        commit('setConn', data)
+    },
+    pushMessage ({commit}, data){
+        commit('pushMessage', data)
     }
   }
 })
