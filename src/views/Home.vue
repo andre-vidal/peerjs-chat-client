@@ -1,6 +1,6 @@
 <template>
   <v-container fluid >
-    <v-flex xs12 sm6 offset-sm3 md4 offset-md4>
+    <v-flex xs12 sm8 offset-sm2 md6 offset-md3>
       <v-list two-line>
         <v-subheader>Online Users</v-subheader>
         <template v-for="(item, index) in $store.state.users">
@@ -41,8 +41,14 @@ export default {
         console.log(err)
       }
     },
-    openChat: function(item){
-      console.log(item)
+    openChat: function(index){
+      this.$store.dispatch('setOtherPeer', {
+        peerId: index,
+        avatar: this.$store.state.users[index].avatar,
+        username: this.$store.state.users[index].username,
+        subtitle: this.$store.state.users[index].subtitle,
+      })
+      this.$router.push({name: 'chat'})
     }
 
   }

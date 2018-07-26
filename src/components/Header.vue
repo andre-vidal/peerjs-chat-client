@@ -8,13 +8,7 @@
       </v-btn>
       <v-list class="pa-0 text-xs-right">
         <v-list-tile >
-          <v-btn class="ma-0 pl-2 pr-2 info--text text-xs-right" flat>
-            <strong>Help</strong>
-            <v-icon class="ml-2">help</v-icon>
-          </v-btn>
-        </v-list-tile>
-        <v-list-tile >
-          <v-btn class="ma-0 pl-2 pr-2 accent--text text-xs-right" flat @click="logout()">
+          <v-btn class="ma-0 pl-2 pr-2 error--text text-xs-right" flat @click="logout()">
             <strong>Log Out</strong>
             <v-icon class="ml-2">exit_to_app</v-icon>
           </v-btn>

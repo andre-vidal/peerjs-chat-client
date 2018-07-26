@@ -9,6 +9,12 @@ export default new Vuex.Store({
       username: null,
       peerId: null
     },
+    otherPeer: {
+      username: null,
+      peerId: null,
+      avatar: null,
+      subtitle: null,
+    },
     users: null,
     loggedIn: false,  
     snackbar: {
@@ -34,6 +40,9 @@ export default new Vuex.Store({
       state.token = null
       state.user.username = null
     },
+    setOtherPeer (state, data){
+      state.otherPeer = data
+    },
     setAllUsers (state, data){
       state.users = data
     },
@@ -50,6 +59,9 @@ export default new Vuex.Store({
     },
     logout ({commit}){
       commit('logout')
+    },
+    setOtherPeer ({commit}, data){
+      commit('setOtherPeer', data)
     },
     setAllUsers ({commit}, data){
       commit('setAllUsers', data)

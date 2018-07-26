@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from './views/Login.vue'
 import Home from './views/Home.vue'
+import Chat from './views/Chat.vue'
 
 // Fallbacks
 import NotFound from './views/fallbacks/NotFound.vue'
@@ -22,6 +23,12 @@ export default new Router({
       path: '/home',
       name: 'home',
       component: Home,
+      meta: {requiresAuth: true}
+    },
+    {
+      path: '/chat',
+      name: 'chat',
+      component: Chat,
       meta: {requiresAuth: true}
     },
     {
