@@ -32,6 +32,10 @@ export default {
     // eslint-disable-next-line
     var peer = new Peer(); 
 
+    peer.on('error', (err) => {
+      console.log(err)
+    });
+    
     peer.on('open', (id) => {
       this.$store.state.user.peerId = id
     });
@@ -44,10 +48,11 @@ export default {
     peer.on('connection',(conn) => { 
       
       conn.on('open', () => { 
-        this.$router.push({name: 'chat'})
-
         // Receive messages
         conn.on('data', (data) => {
+          // set chat identifier
+          data.chat = data.from,
+          console.log(data)
           this.$store.dispatch('pushMessage', data)
         }); 
       })
@@ -63,6 +68,9 @@ export default {
 
         // Receive messages
         conn.on('data', (data) => {
+          // set chat identifier
+          data.chat = data.from,
+          console.log(data)
           this.$store.dispatch('pushMessage', data)
         }); 
       })

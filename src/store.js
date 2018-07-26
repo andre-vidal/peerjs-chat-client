@@ -17,7 +17,7 @@ export default new Vuex.Store({
     },
     users: null,
     loggedIn: false,
-    convo: [],  
+    convos: {},  
     conn: null,
     snackbar: {
       show: false,
@@ -55,7 +55,11 @@ export default new Vuex.Store({
       state.conn = data
     },
     pushMessage (state, data){
-      state.convo.push(data)
+      if(state.convos[data.chat]){
+        state.convos[data.chat].push(data)
+      }else{
+        state.convos[data.chat] = [data]
+      }
     }
   },
   actions: {
