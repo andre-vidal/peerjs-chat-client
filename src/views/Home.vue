@@ -52,7 +52,7 @@ export default {
         username: this.$store.state.users[index].username,
         subtitle: this.$store.state.users[index].subtitle,
       })
-      bus.$emit('startChat', this.$store.state.otherPeer.peerId)
+      bus.$emit('openChat', this.$store.state.otherPeer.peerId)
     }
 
   }

@@ -17,8 +17,9 @@ export default new Vuex.Store({
     },
     users: null,
     loggedIn: false,
-    convos: {},  
-    conn: null,
+    convos: {}, 
+    currentConvo: null, 
+    conns: {},
     snackbar: {
       show: false,
       color: "green",
@@ -52,7 +53,7 @@ export default new Vuex.Store({
       state.snackbar = data
     },
     setConn (state, data){
-      state.conn = data
+      state.conns[data.chat] = data.conn
     },
     pushMessage (state, data){
       if(state.convos[data.chat]){
@@ -60,6 +61,14 @@ export default new Vuex.Store({
       }else{
         state.convos[data.chat] = [data]
       }
+      state.currentConvo = state.convos[state.otherPeer.peerId]
+    },
+    setCurrentConvo (state){
+      if(state.convos[state.otherPeer.peerId]){
+        state.currentConvo = state.convos[state.otherPeer.peerId]
+      }else{
+        state.currentConvo = []
+      }        
     }
   },
   actions: {
@@ -86,6 +95,9 @@ export default new Vuex.Store({
     },
     pushMessage ({commit}, data){
         commit('pushMessage', data)
+    },
+    setCurrentConvo ({commit}){
+        commit('setCurrentConvo')
     }
   }
 })

@@ -5,7 +5,7 @@
         <v-layout fill-height align-end row wrap>
           <v-flex>
             <v-subheader>Chatting with {{ $store.state.otherPeer.username }}</v-subheader>
-              <template v-for="(item, index) in $store.state.convos[$store.state.otherPeer.peerId]">
+              <template v-for="(item, index) in $store.state.currentConvo">
                 <v-list-tile :key="index">
                   <v-list-tile-content>
                     <v-list-tile-title class="body-2" :class="{'text-xs-right':item.from==$store.state.user.peerId}">{{ item.msg }}</v-list-tile-title>
@@ -38,10 +38,17 @@ export default {
   components: {},
   data() {
     return {
-      msg: null
+      msg: null,
+      chatMessages: []
     }
   },
-  methods:{
+  updated(){
+    this.chatMessages = this.$store.state.convos[this.$store.state.otherPeer.peerId]
+  },
+  mounted(){
+    // this.chatMessages = this.$store.state.convos[this.$store.state.otherPeer.peerId]
+  },
+  methods: {
     openChat: function(item){
       console.log(item)
     },
@@ -51,7 +58,7 @@ export default {
         msg: this.msg,
         timestamp: null
       }
-      this.$store.state.conn.send(msg)
+      this.$store.state.conns[this.$store.state.otherPeer.peerId].send(msg)
       // set chat identifier
       msg.chat = this.$store.state.otherPeer.peerId,
       console.log(msg)

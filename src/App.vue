@@ -55,27 +55,36 @@ export default {
           console.log(data)
           this.$store.dispatch('pushMessage', data)
         }); 
+
+        this.$store.dispatch('setConn', {chat: conn.peer, conn: conn})
       })
 
-      this.$store.dispatch('setConn', conn)
     })
 
-    bus.$on('startChat', (data) =>{
-      var conn = peer.connect(data);
+    bus.$on('openChat', (data) =>{
+      
+      if(this.$store.state.conns[data]){
+        // avoid creating multiple connections for same peers
+        this.$router.push({name: 'chat'}) 
+      }else{        
+        var conn = peer.connect(data);
+  
+        conn.on('open', () => {         
+          this.$router.push({name: 'chat'})   
+  
+          // Receive messages
+          conn.on('data', (data) => {
+            // set chat identifier
+            data.chat = data.from,
+            console.log(data)
+            this.$store.dispatch('pushMessage', data)
+          }); 
+  
+          this.$store.dispatch('setConn', {chat: data, conn: conn})
+        })
+      }
 
-      conn.on('open', () => {         
-        this.$router.push({name: 'chat'})   
-
-        // Receive messages
-        conn.on('data', (data) => {
-          // set chat identifier
-          data.chat = data.from,
-          console.log(data)
-          this.$store.dispatch('pushMessage', data)
-        }); 
-      })
-
-      this.$store.dispatch('setConn', conn)
+      this.$store.dispatch('setCurrentConvo')
     })
     
   },
