@@ -4,7 +4,7 @@
       <v-card height="100%">
         <v-list two-line>
           <v-subheader>Online Users</v-subheader>
-          <template v-for="(item, index) in $store.state.users">
+          <template v-for="(item, index) in $store.state.users" v-if="index != $store.state.user.peerId">
             <v-list-tile :key="index" avatar @click="openChat(index)">
               <v-list-tile-avatar>
                 <img v-if="item.avatar" :src="item.avatar">
