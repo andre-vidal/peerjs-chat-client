@@ -15,6 +15,8 @@ export default new Vuex.Store({
       avatar: null,
       subtitle: null,
     },
+    myVideoStream: null,
+    otherVideoStream: null,
     users: null,
     inChat: false,
     loggedIn: false,
@@ -46,6 +48,12 @@ export default new Vuex.Store({
     },
     setOtherPeer (state, data){
       state.otherPeer = data
+    },
+    setMyVideoStream (state, data){
+      state.myVideoStream = data
+    },
+    setOtherVideoStream (state, data){
+      state.otherVideoStream = data
     },
     setAllUsers (state, data){
       state.users = data
@@ -90,6 +98,12 @@ export default new Vuex.Store({
     },
     setOtherPeer ({commit}, data){
       commit('setOtherPeer', data)
+    },
+    setOtherVideoStream ({commit}, data){
+      commit('setOtherVideoStream', data)
+    },
+    setMyVideoStream ({commit}, data){
+      commit('setMyVideoStream', data)
     },
     setAllUsers ({commit}, data){
       commit('setAllUsers', data)

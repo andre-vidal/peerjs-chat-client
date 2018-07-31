@@ -30,7 +30,16 @@ export default {
   mounted(){    
 
     // eslint-disable-next-line
-    var peer = new Peer(); 
+    var peer = new Peer({config:{
+      'iceServers': [
+        { url: 'stun:stun1.1.google.com:19302' },
+        {
+          url: 'turn:numb.viagenie.ca',
+          credential: 'muazkh',
+          username: 'webrtc@live.com '
+        }
+      ]
+    }}); 
 
     peer.on('error', (err) => {
       console.log(err)
@@ -62,7 +71,27 @@ export default {
 
     })
 
-    bus.$on('openChat', (data) =>{
+    peer.on('call', (call) => {
+
+      call.on('stream', (stream) => {
+        console.log("Stream recieved from caller: ", stream)
+        this.$store.dispatch('setOtherVideoStream', stream)
+      });
+
+      var constraints = { audio: true, video: true };
+      navigator.mediaDevices.getUserMedia(constraints)
+      .then((mediaStream) => {        
+        console.log("Got navigator media stream")
+        this.$store.dispatch('setMyVideoStream', mediaStream)
+        this.$router.push({name: 'call'})
+        // Answer the call, providing our mediaStream
+        call.answer(mediaStream);
+      })
+      .catch(function(err) { console.log(err.name + ": " + err.message); }); // always check for errors at the end.
+
+    });
+
+    bus.$on('openChat', (data) => {
       
       if(this.$store.state.conns[data]){
         // avoid creating multiple connections for same peers
@@ -86,6 +115,33 @@ export default {
       }
 
       this.$store.dispatch('setCurrentConvo')
+    })
+
+    bus.$on('callPeer', () => {
+      var constraints = { audio: true, video: true }
+      var options = {
+        'constraints': {
+          'mandatory': {
+              'OfferToReceiveAudio': true,
+              'OfferToReceiveVideo': true
+          }
+        }
+      }
+
+      navigator.mediaDevices.getUserMedia(constraints)
+      .then((mediaStream) => {
+        //store my media stream
+        console.log("Got navigator media stream")
+        this.$store.dispatch('setMyVideoStream', mediaStream)        
+        var call = peer.call(this.$store.state.otherPeer.peerId, mediaStream, options)
+        
+        call.on('stream', (stream) => {
+          console.log("Stream recieved from other: ", stream)
+          this.$store.dispatch('setOtherVideoStream', stream)
+          this.$router.push({name: 'call'})
+        });
+      })
+      .catch(function(err) { console.log(err.name + ": " + err.message); }); // always check for errors at the end.
     })
     
   },

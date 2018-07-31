@@ -48,9 +48,6 @@ export default {
     this.$store.dispatch('closeChat')
   },
   methods: {
-    openChat: function(item){
-      console.log(item)
-    },
     send: function(){
       var msg = {
         from: this.$store.state.user.peerId,
@@ -64,7 +61,6 @@ export default {
       this.$store.dispatch('pushMessage', msg)
       this.msg = null
     }
-
   }
 }
 </script>

@@ -5,18 +5,26 @@
         <v-list two-line>
           <v-subheader>Online Users</v-subheader>
           <template v-for="(item, index) in $store.state.users" v-if="index != $store.state.user.peerId">
-            <v-list-tile :key="index" avatar @click="openChat(index)">
-              <v-list-tile-avatar>
-                <img v-if="item.avatar" :src="item.avatar">
-                <v-icon v-else>person</v-icon>
-              </v-list-tile-avatar>
-
-              <v-list-tile-content>
-                <v-list-tile-title>{{ item.username }}</v-list-tile-title>
-                <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
-              </v-list-tile-content>
+            <v-list-tile :key="index" avatar>
+              <!-- <v-badge color="cyan" >
+                <span slot="badge">6</span> -->
+                <v-list-tile-avatar color="grey">
+                  <img v-if="item.avatar" :src="item.avatar">
+                  <v-icon dark v-else>person</v-icon>
+                </v-list-tile-avatar>
+                <v-list-tile-content>
+                  <v-list-tile-title>{{ item.username }}</v-list-tile-title>
+                  <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
+                </v-list-tile-content>
+                <v-list-tile-action>
+                  <v-btn icon color="accent" ripple dark @click="openChat(index)"><v-icon>message</v-icon></v-btn>
+                </v-list-tile-action>
+                <v-list-tile-action>
+                  <v-btn icon color="accent" ripple dark @click="callPeer(index)"><v-icon>phone</v-icon></v-btn>
+                </v-list-tile-action>
+              <!-- </v-badge> -->
             </v-list-tile>
-            <v-divider :key="index+'divider'"></v-divider>
+            <v-divider inset :key="index+'divider'"></v-divider>
           </template>
         </v-list>
       </v-card>
@@ -53,6 +61,15 @@ export default {
         subtitle: this.$store.state.users[index].subtitle,
       })
       bus.$emit('openChat', this.$store.state.otherPeer.peerId)
+    },
+    callPeer: function(index){
+      this.$store.dispatch('setOtherPeer', {
+        peerId: index,
+        avatar: this.$store.state.users[index].avatar,
+        username: this.$store.state.users[index].username,
+        subtitle: this.$store.state.users[index].subtitle,
+      })
+      bus.$emit('callPeer')
     }
 
   }
@@ -63,6 +80,11 @@ export default {
 
 .v-list {
   overflow: auto;
+}
+
+.v-divider {
+  /* margin-left: 20px; */
+  margin-right: 10px;
 }
 </style>
 
